@@ -45,6 +45,16 @@ app.get('/teams/list', ((req,res,next) => {
   .catch((err) => next(err));
 }));
 
+app.get('/teams/:id', ((req,res,next) => {
+  Teams.findById(req.params.id)
+  .then((Team) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.json(Team);
+  }, (err) => next(err))
+  .catch((err) => next(err));
+}));
+
 app.post('/teams', ((req,res,next) =>  {
   Teams.create(req.body)
   .then((team) => {
