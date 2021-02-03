@@ -6,6 +6,8 @@ const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 
+const mailer = require("nodemailer");
+
 const port = process.env.PORT || 3001;
 const username = process.env.User || 'jeyansaran620';
 const password = process.env.Pass || 'jeyan@123';
@@ -55,12 +57,44 @@ app.get('/teams/:id', ((req,res,next) => {
   .catch((err) => next(err));
 }));
 
+let transport = mailer.createTransport({
+  service: 'Gmail',
+  auth: {
+      user: "manavarmandramgct@gmail.com",
+      pass: "TmFa@gct"
+  }
+});
+
+
 app.post('/teams', ((req,res,next) =>  {
   Teams.create(req.body)
   .then((team) => {
       console.log('Team Created ', team);
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
+
+      let mail = {
+        from: "manavarmandramgct@gmail.com",
+        to: team.TeamMembers[0].Email,
+        subject: "Niralkalam Registration",
+        text: `Dear ${team.TeamMembers[0].Name} Thank you for Registering to Niral Kalam. Kindly mail us your Problem statement within March 1.`,
+        html: `<body>
+              <h3>Dear ${team.TeamMembers[0].Name}, Thank you for Registering to Niral Kalam.</h3>
+              <h4>Kindly mail us your Problem statement within March 1.</h4>
+              <b>All the Best ${team.TeamName}</b>
+              </body>`
+      }
+
+      transport.sendMail(mail, function(error, response){
+        if(error){
+            console.log(error);
+        }else{
+            console.log("Message sent: " + response.message);
+        }
+    
+        smtpTransport.close();
+    });
+
       res.json(team);
   }, (err) => next(err))
   .catch((err) => next(err));
