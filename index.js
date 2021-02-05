@@ -77,11 +77,16 @@ app.post('/teams', ((req,res,next) =>  {
         from: "manavarmandramgct@gmail.com",
         to: team.TeamMembers[0].Email,
         subject: "Niralkalam Registration",
-        text: `Dear ${team.TeamMembers[0].Name} Thank you for Registering to Niral Kalam. Kindly mail us your Problem statement within March 1.`,
+        text: `Dear ${team.TeamMembers[0].Name} Thank you for Registering to NiralKalam'21. Kindly mail us your Problem statement within March 1.`,
         html: `<body>
               <h3>Dear ${team.TeamMembers[0].Name}, Thank you for Registering to Niral Kalam.</h3>
               <h4>Kindly mail us your Problem statement within March 1.</h4>
               <b>All the Best ${team.TeamName}</b>
+              <h2></h2>
+              <h2>With Regards,</h2>
+              <h2>Team Niralkalam'21</h2>
+              <h2>Tamil Mandram and Fine Arts Club</h2>
+              <h2>Government College of Technology, Coimbatore.</h2>
               </body>`
       }
 
